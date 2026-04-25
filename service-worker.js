@@ -1,8 +1,15 @@
 const CACHE_NAME = "fo-app-cache-v1";
 const APP_SHELL = [
   "./",
+  "./index.html",
   "./franciane_oliver_v3.html",
-  "./manifest.webmanifest"
+  "./manifest.webmanifest",
+  "./styles/main.css",
+  "./scripts/storage.js",
+  "./scripts/checklist.js",
+  "./scripts/ui.js",
+  "./scripts/pwa.js",
+  "./scripts/app.js"
 ];
 
 self.addEventListener("install", event => {
