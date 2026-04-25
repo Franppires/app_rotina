@@ -1,0 +1,11 @@
+{
+  "name": "Franciane e Oliver",
+  "short_name": "Rotina F&O",
+  "start_url": "./franciane_oliver_v3.html",
+  "display": "standalone",
+  "background_color": "#0F0F0E",
+  "theme_color": "#1A1917",
+  "lang": "pt-BR",
+  "description": "Rotina diaria offline com checklist e edicao local.",
+  "icons": []
+}

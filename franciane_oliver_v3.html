@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1A1917">
+<title>Franciane &amp; Oliver</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────── */
+:root{
+  --bg:#F5F2ED;--s0:#FFFFFF;--s1:#EEEBE4;--s2:#E4E0D8;
+  --t0:#1A1816;--t1:#56524D;--t2:#9A9590;--t3:#C4BFB9;
+  --bdr:rgba(26,24,22,.09);--bdr2:rgba(26,24,22,.05);
+  --r:16px;--r2:12px;--r3:8px;
+  --green:#1B9870;--gl:#DFF3EC;--gd:#0D5E44;
+  --blue:#2F82D4;--bl:#DCEEFB;--bd:#174F86;
+  --amber:#B06D10;--al:#FDF0D9;--ad:#6B4008;
+  --coral:#C9502A;--cl:#FAE8E2;--cd:#7A2E16;
+  --purple:#6C65CC;--pl:#ECEAFC;--pd:#3E3888;
+  --nav-h:64px;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0E;--s0:#1A1917;--s1:#222120;--s2:#2C2B29;
+  --t0:#EDE8E2;--t1:#8A8580;--t2:#4E4B47;--t3:#333230;
+  --bdr:rgba(237,232,226,.08);--bdr2:rgba(237,232,226,.04);
+  --green:#28C485;--gl:#08241A;--gd:#4DBDA0;
+  --blue:#7DB8EC;--bl:#091B2E;--bd:#A9D0F5;
+  --amber:#F0C06A;--al:#1F1508;--ad:#F5D090;
+  --coral:#EF8D6B;--cl:#220D07;--cd:#F5B49A;
+  --purple:#A49FE8;--pl:#15123A;--pd:#C5C1F4;
+}
+
+/* ─── RESET ──────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t0);min-height:100vh;font-size:15px;line-height:1.6;padding-bottom:var(--nav-h)}
+
+/* ─── TOP BAR ────────────────────────────────── */
+.topbar{
+  background:var(--s0);border-bottom:1px solid var(--bdr);
+  padding:14px 20px 12px;position:sticky;top:0;z-index:200;
+}
+.topbar-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.topbar h1{font-family:'DM Serif Display',serif;font-size:20px;font-weight:400;color:var(--t0);letter-spacing:-.3px}
+.topbar-sub{font-size:12px;color:var(--t2);font-weight:300;margin-top:1px}
+.top-actions{display:flex;align-items:center;gap:8px}
+.theme-btn{background:var(--s1);border:1px solid var(--bdr);border-radius:99px;padding:5px 12px;font-size:12px;color:var(--t1);font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.edit-btn{
+  background:var(--green);border:1px solid var(--green);color:#fff;
+  border-radius:99px;padding:5px 12px;font-size:12px;font-family:'DM Sans',sans-serif;
+  cursor:pointer;white-space:nowrap;flex-shrink:0
+}
+[data-theme="dark"] .edit-btn{color:var(--gl)}
+.edit-note{
+  display:none;margin:10px auto 0;max-width:680px;padding:8px 12px;
+  background:var(--al);border:1px solid var(--amber);color:var(--ad);
+  border-radius:10px;font-size:12px
+}
+.edit-mode .edit-note{display:block}
+.editable{outline:none}
+.edit-mode .editable{
+  background:var(--s1);box-shadow:inset 0 0 0 1px var(--amber);
+  border-radius:6px;padding:2px 4px
+}
+
+/* ─── SUB HEADER (context title) ───────────────── */
+.sub-header{padding:16px 20px 0;max-width:680px;margin:0 auto}
+.page-title{font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:var(--t0);margin-bottom:2px}
+.page-sub{font-size:13px;color:var(--t1);font-weight:300;margin-bottom:16px}
+
+/* ─── BOTTOM NAV ─────────────────────────────── */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  height:var(--nav-h);background:var(--s0);
+  border-top:1px solid var(--bdr);
+  display:flex;align-items:stretch;
+  z-index:200;
+}
+.bn-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:3px;cursor:pointer;
+  border:none;background:transparent;font-family:'DM Sans',sans-serif;
+  padding:6px 4px;transition:all .15s;position:relative;
+}
+.bn-item.active{color:var(--green)}
+.bn-item:not(.active){color:var(--t2)}
+.bn-icon{font-size:20px;line-height:1}
+.bn-label{font-size:10px;font-weight:500;letter-spacing:.2px}
+.bn-item.active::after{
+  content:'';position:absolute;top:0;left:20%;right:20%;
+  height:2px;background:var(--green);border-radius:0 0 2px 2px;
+}
+
+/* ─── MAIN WRAPPER ───────────────────────────── */
+.main{max-width:680px;margin:0 auto;padding:0 16px 24px}
+.page{display:none}.page.visible{display:block}
+
+/* ─── SECTION LABEL ──────────────────────────── */
+.slabel{
+  font-size:10px;font-weight:600;letter-spacing:1px;
+  text-transform:uppercase;color:var(--t2);
+  padding:20px 0 8px;
+}
+.slabel:first-child{padding-top:16px}
+
+/* ─── PILL TABS (sub-nav) ────────────────────── */
+.pill-nav{display:flex;gap:6px;flex-wrap:wrap;padding:16px 0 4px}
+.pill{padding:7px 16px;border-radius:99px;border:1.5px solid var(--bdr);background:transparent;color:var(--t1);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .18s;font-weight:400}
+.pill:hover{background:var(--s1);color:var(--t0)}
+.pill.on{background:var(--t0);color:var(--bg);border-color:var(--t0);font-weight:500}
+
+/* ─── TIMELINE ───────────────────────────────── */
+.timeline{display:flex;flex-direction:column;gap:6px;padding-top:4px}
+
+.tblock{
+  background:var(--s0);border:1px solid var(--bdr2);
+  border-radius:var(--r);padding:14px 16px;
+  display:flex;gap:12px;align-items:flex-start;
+  transition:box-shadow .15s;
+}
+.tblock.you{border-left:3px solid var(--purple);border-radius:0 var(--r) var(--r) 0}
+.tblock.home{border-left:3px solid var(--amber);border-radius:0 var(--r) var(--r) 0}
+.tblock.baby{border-left:3px solid var(--blue);border-radius:0 var(--r) var(--r) 0}
+.tblock.work{border-left:3px solid var(--green);border-radius:0 var(--r) var(--r) 0}
+
+.ttime{font-size:13px;color:var(--t0);min-width:50px;padding-top:2px;font-weight:500;font-variant-numeric:tabular-nums;flex-shrink:0}
+.tcont{flex:1;min-width:0}
+.ttitle{font-size:15px;font-weight:500;color:var(--t0);margin-bottom:6px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;line-height:1.3}
+.tdet{font-size:13px;color:var(--t1);line-height:1.7;font-weight:300}
+.tdet ul{list-style:none;padding:0;margin:0}
+.tdet ul li{padding:2px 0 2px 14px;position:relative}
+.tdet ul li::before{content:'·';position:absolute;left:0;color:var(--t2);font-size:16px;line-height:1.35}
+
+.period-tag{
+  font-size:10px;font-weight:600;letter-spacing:.8px;
+  text-transform:uppercase;color:var(--t2);
+  padding:16px 0 4px;
+}
+
+/* ─── BADGE ──────────────────────────────────── */
+.tag{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:500;white-space:nowrap}
+.tag-you{background:var(--purple);color:#fff}
+.tag-baby{background:var(--blue);color:#fff}
+.tag-home{background:var(--amber);color:#fff}
+.tag-green{background:var(--green);color:#fff}
+[data-theme="dark"] .tag-you{background:var(--purple);color:var(--pl)}
+[data-theme="dark"] .tag-baby{background:var(--blue);color:var(--bl)}
+[data-theme="dark"] .tag-home{background:var(--amber);color:var(--al)}
+[data-theme="dark"] .tag-green{background:var(--green);color:var(--gl)}
+
+/* ─── CARD ───────────────────────────────────── */
+.card{background:var(--s0);border:1px solid var(--bdr2);border-radius:var(--r);overflow:hidden;margin-bottom:8px}
+.card-head{background:var(--s1);padding:11px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr)}
+.card-title{font-size:13px;font-weight:500;color:var(--t0)}
+.card-sub{font-size:12px;color:var(--t1);font-weight:300}
+.card-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 16px;border-bottom:1px solid var(--bdr2);font-size:14px;gap:12px}
+.card-row:last-child{border-bottom:none}
+.cr-l{color:var(--t0);font-weight:400;flex-shrink:0;max-width:45%}
+.cr-r{color:var(--t1);font-weight:300;font-size:13px;text-align:right;line-height:1.5}
+
+/* ─── INFO BOX ───────────────────────────────── */
+.info-box{border-radius:var(--r2);padding:12px 16px;margin-bottom:8px;font-size:13px;line-height:1.6}
+.info-box.green{background:var(--gl);border:1px solid var(--green);color:var(--gd)}
+.info-box.blue{background:var(--bl);border:1px solid var(--blue);color:var(--bd)}
+.info-box.amber{background:var(--al);border:1px solid var(--amber);color:var(--ad)}
+.info-box.coral{background:var(--cl);border:1px solid var(--coral);color:var(--cd)}
+.info-box strong{font-weight:500}
+
+/* ─── TIP CARD ───────────────────────────────── */
+.tip{background:var(--s0);border:1px solid var(--bdr2);padding:14px 16px;border-left:3px solid var(--green);border-radius:0 var(--r) var(--r) 0;margin-bottom:8px}
+.tip.amber{border-left-color:var(--amber)}.tip.blue{border-left-color:var(--blue)}
+.tip.coral{border-left-color:var(--coral)}.tip.purple{border-left-color:var(--purple)}
+.tip-title{font-size:14px;font-weight:500;color:var(--t0);margin-bottom:5px}
+.tip-body{font-size:13px;color:var(--t1);line-height:1.7;font-weight:300}
+.tip-body ul{list-style:none;margin:5px 0 0}
+.tip-body ul li{padding:3px 0 3px 14px;position:relative}
+.tip-body ul li::before{content:'→';position:absolute;left:0;color:var(--t2);font-size:11px;top:6px}
+
+/* ─── CHECKLIST ──────────────────────────────── */
+.prog-wrap{padding:16px 0 8px}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prog-lbl{font-size:13px;color:var(--t1);font-weight:300}
+.prog-pct{font-size:13px;font-weight:500;color:var(--green)}
+.prog-track{background:var(--s2);border-radius:99px;height:4px;overflow:hidden}
+.prog-fill{height:4px;background:var(--green);border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+
+.ck-list{background:var(--s0);border:1px solid var(--bdr2);border-radius:var(--r);overflow:hidden;margin-bottom:8px}
+.ck-grp{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t2);padding:10px 16px 8px;background:var(--s1);border-bottom:1px solid var(--bdr2);border-top:1px solid var(--bdr2)}
+.ck-list .ck-grp:first-child{border-top:none}
+.ck-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--bdr2);cursor:pointer;transition:background .12s;user-select:none}
+.ck-row:last-child{border-bottom:none}
+.ck-row:hover,.ck-row:active{background:var(--s1)}
+.ck-box{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--bdr);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .18s;background:var(--bg)}
+.ck-box.on{background:var(--green);border-color:var(--green)}
+.ck-tick{color:#fff;font-size:11px;font-weight:700;display:none;line-height:1}
+.ck-box.on .ck-tick{display:block}
+.ck-time{font-size:12px;color:var(--t2);min-width:44px;font-variant-numeric:tabular-nums;font-weight:400}
+.ck-lbl{font-size:14px;color:var(--t0);flex:1;line-height:1.4}
+.ck-lbl.done{text-decoration:line-through;color:var(--t2)}
+
+/* ─── MEAL ───────────────────────────────────── */
+.meal{background:var(--s0);border:1px solid var(--bdr2);border-radius:var(--r);overflow:hidden;margin-bottom:8px}
+.meal-head{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;background:var(--s1);border-bottom:1px solid var(--bdr)}
+.meal-title{font-size:14px;font-weight:500;color:var(--t0)}
+.meal-kcal{font-size:11px;color:var(--gd);font-weight:500;background:var(--gl);padding:3px 9px;border-radius:99px}
+.meal-row{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 16px;border-bottom:1px solid var(--bdr2);font-size:13px;gap:8px}
+.meal-row:last-child{border-bottom:none}
+.meal-name{color:var(--t0);font-weight:400;flex:1;line-height:1.4}
+.meal-qty{color:var(--t2);font-weight:300;font-size:12px;text-align:right;white-space:nowrap;flex-shrink:0;padding-top:1px}
+
+/* ─── MACRO ROW ──────────────────────────────── */
+.macros{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:4px}
+.macro-box{background:var(--s0);border:1px solid var(--bdr2);border-radius:var(--r2);padding:10px 8px;text-align:center}
+.macro-val{font-size:18px;font-weight:500;color:var(--t0);line-height:1.2}
+.macro-lbl{font-size:10px;color:var(--t2);margin-top:2px}
+
+/* ─── WEEK GRID ──────────────────────────────── */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:12px}
+.wday{background:var(--s0);border:1px solid var(--bdr2);border-radius:var(--r3);padding:8px 4px;text-align:center}
+.wday.on{border-color:var(--green);background:var(--gl)}
+.wday.off{opacity:.4}
+.wd-name{font-size:10px;font-weight:500;color:var(--t1);margin-bottom:3px}
+.wday.on .wd-name{color:var(--gd)}
+.wd-type{font-size:9px;color:var(--t2);line-height:1.3}
+.wday.on .wd-type{color:var(--gd)}
+
+/* ─── EXERCISE ───────────────────────────────── */
+.ex-list{display:flex;flex-direction:column;gap:6px;margin-bottom:4px}
+.ex-item{background:var(--s0);border:1px solid var(--bdr2);border-radius:var(--r);padding:13px 16px;display:flex;gap:12px}
+.ex-num{font-size:12px;font-weight:500;color:var(--t2);min-width:20px;padding-top:2px;font-variant-numeric:tabular-nums;flex-shrink:0}
+.ex-body{flex:1}
+.ex-name{font-size:15px;font-weight:500;color:var(--t0);margin-bottom:3px}
+.ex-det{font-size:13px;color:var(--t1);font-weight:300;line-height:1.5}
+.etag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;font-weight:500;margin-left:5px}
+.et-g{background:var(--green);color:#fff}.et-b{background:var(--blue);color:#fff}
+.et-a{background:var(--amber);color:#fff}.et-c{background:var(--coral);color:#fff}
+[data-theme="dark"] .et-g{color:var(--gl)}[data-theme="dark"] .et-b{color:var(--bl)}
+[data-theme="dark"] .et-a{color:var(--al)}[data-theme="dark"] .et-c{color:var(--cl)}
+
+/* ─── MED CARD ───────────────────────────────── */
+.med{background:var(--s0);border:1px solid var(--bdr2);border-radius:var(--r);padding:14px 16px;margin-bottom:8px}
+.med.purple{border-left:3px solid var(--purple);border-radius:0 var(--r) var(--r) 0}
+.med.green{border-left:3px solid var(--green);border-radius:0 var(--r) var(--r) 0}
+.med.amber{border-left:3px solid var(--amber);border-radius:0 var(--r) var(--r) 0}
+.med-name{font-size:15px;font-weight:500;color:var(--t0);margin-bottom:4px}
+.med-time{font-size:12px;font-weight:500;display:inline-block;padding:2px 9px;border-radius:99px;margin-bottom:8px}
+.med.purple .med-time{background:var(--pl);color:var(--pd)}
+.med.green .med-time{background:var(--gl);color:var(--gd)}
+.med.amber .med-time{background:var(--al);color:var(--ad)}
+.med-body{font-size:13px;color:var(--t1);font-weight:300;line-height:1.7}
+.med-body ul{list-style:none;margin:4px 0 0}
+.med-body ul li{padding:2px 0 2px 14px;position:relative}
+.med-body ul li::before{content:'·';position:absolute;left:0;color:var(--t2);font-size:16px;line-height:1.35}
+
+/* ─── ACCORDION (rodizio) ────────────────────── */
+.acc-list{display:flex;flex-direction:column;gap:6px}
+.acc{background:var(--s0);border:1px solid var(--bdr2);border-radius:var(--r);overflow:hidden}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;user-select:none;transition:background .12s}
+.acc-head:hover,.acc-head:active{background:var(--s1)}
+.acc-left{display:flex;align-items:center;gap:12px}
+.acc-dot{width:34px;height:34px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.acc-title{font-size:15px;font-weight:500;color:var(--t0)}
+.acc-sub{font-size:12px;color:var(--t1);font-weight:300;margin-top:1px}
+.acc-arr{font-size:11px;color:var(--t2);transition:transform .2s}
+.acc.open .acc-arr{transform:rotate(180deg)}
+.acc-body{display:none;padding:0 16px 14px;border-top:1px solid var(--bdr2)}
+.acc.open .acc-body{display:block}
+.acc-section{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t2);padding:12px 0 6px}
+.toy-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:var(--r3);background:var(--s1);margin-bottom:4px}
+.toy-icon{font-size:17px;flex-shrink:0;margin-top:1px}
+.toy-name{font-size:13px;font-weight:500;color:var(--t0);line-height:1.3}
+.toy-why{font-size:12px;color:var(--t1);font-weight:300;margin-top:2px;line-height:1.4}
+.today-dot{font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;background:var(--green);color:#fff;margin-left:6px}
+
+/* ─── INV CHIPS ──────────────────────────────── */
+.chip-grid{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.chip{background:var(--s0);border:1px solid var(--bdr2);border-radius:99px;padding:5px 12px;font-size:12px;color:var(--t1)}
+
+/* ─── FOOTER ─────────────────────────────────── */
+.footer{text-align:center;padding:20px 16px 8px;font-size:12px;color:var(--t2);font-weight:300}
+
+/* ─── SCROLLBAR ──────────────────────────────── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--t3);border-radius:4px}
+
+@media(max-width:360px){
+  .macros{grid-template-columns:repeat(2,1fr)}
+  .macro-val{font-size:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div>
+      <h1>Franciane &amp; Oliver</h1>
+      <div class="topbar-sub">Oliver 10 meses · Mãe solo · 35 anos</div>
+    </div>
+    <div class="top-actions">
+      <button class="edit-btn" onclick="toggleEditMode()" id="editBtn">Editar</button>
+      <button class="theme-btn" onclick="tT()" id="tbtn">☀ claro</button>
+    </div>
+  </div>
+  <div class="edit-note">Modo edicao ativo. Toque no texto para editar. Os dados ficam salvos no celular.</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- ══ ROTINA ══════════════════════════════════ -->
+<div class="page visible" id="pg-rotina">
+
+  <div class="pill-nav">
+    <button class="pill on" onclick="subNav('rot','rot-dia',this)">Meu dia</button>
+    <button class="pill" onclick="subNav('rot','rot-ck',this)">Checklist</button>
+    <button class="pill" onclick="subNav('rot','rot-brincar',this)">Brincar sozinho</button>
+  </div>
+
+  <!-- sub: meu dia -->
+  <div id="rot-dia">
+    <div class="timeline">
+
+      <div class="period-tag">Manhã cedo — antes do Oliver acordar</div>
+
+      <div class="tblock you">
+        <div class="ttime">06h00</div>
+        <div class="tcont">
+          <div class="ttitle">Academia <span class="tag tag-you">Franciane</span></div>
+          <div class="tdet"><ul>
+            <li>Treino no prédio — roupa separada na noite anterior</li>
+            <li>Tome Mecobe (B12) no café ao voltar</li>
+            <li>45–50 min de treino + 10 min pra trocar e subir</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock home">
+        <div class="ttime">06h50</div>
+        <div class="tcont">
+          <div class="ttitle">Preparar manhã <span class="tag tag-home">casa</span></div>
+          <div class="tdet"><ul>
+            <li>Banho + café da manhã (2 ovos + pão integral + fruta + café preto)</li>
+            <li>Mamadeira 1 do Oliver pronta ou da geladeira</li>
+            <li>Arroz/feijão no fogo se não sobrou de ontem</li>
+            <li>Lavar louça da noite anterior</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="period-tag">Manhã — Oliver acordado</div>
+
+      <div class="tblock baby">
+        <div class="ttime">07h30</div>
+        <div class="tcont">
+          <div class="ttitle">Oliver acorda <span class="tag tag-baby">Oliver</span></div>
+          <div class="tdet"><ul>
+            <li>Mamadeira 1 — até 210ml, no colo</li>
+            <li>Troca de fralda e roupinha do dia</li>
+            <li>Converse, cante — ancoragem afetiva do dia</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock home">
+        <div class="ttime">07h50</div>
+        <div class="tcont">
+          <div class="ttitle">Oliver brinca · tarefas rápidas <span class="tag tag-home">casa</span></div>
+          <div class="tdet"><ul>
+            <li>Oliver no tapete no mesmo cômodo</li>
+            <li>1–2 tarefas de 10 min: dobrar roupa, varrer, organizar</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock baby">
+        <div class="ttime">09h00</div>
+        <div class="tcont">
+          <div class="ttitle">Fruta da manhã <span class="tag tag-baby">Oliver</span></div>
+          <div class="tdet"><ul>
+            <li>½ banana OU 2 col. mamão OU pera amassada — no cadeirão</li>
+            <li>Água no copinho após</li>
+            <li>Você pode comer sua fruta junto</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock baby">
+        <div class="ttime">09h45</div>
+        <div class="tcont">
+          <div class="ttitle">Soneca 1 <span class="tag tag-baby">Oliver</span></div>
+          <div class="tdet"><ul>
+            <li>Quarto escuro · ruído branco · troca · berço acordado</li>
+            <li>Dura 1h–1h30 — use esse tempo com intenção</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock work">
+        <div class="ttime">09h55</div>
+        <div class="tcont">
+          <div class="ttitle">Trabalho — bloco 1 <span class="tag tag-you">Franciane</span></div>
+          <div class="tdet"><ul>
+            <li>~1h de foco — tarefas que exigem concentração</li>
+            <li>Defina a tarefa ANTES de sentar</li>
+            <li>Lanche: iogurte + castanhas (~10h)</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="period-tag">Meio do dia</div>
+
+      <div class="tblock baby">
+        <div class="ttime">11h15</div>
+        <div class="tcont">
+          <div class="ttitle">Oliver acorda + almoço <span class="tag tag-baby">Oliver</span></div>
+          <div class="tdet"><ul>
+            <li>Papa salgada: 8–10 col. sobremesa — grupos separados no prato</li>
+            <li>Cereal + leguminosa + proteína + hortaliça + 1 col. óleo de canola ao servir</li>
+            <li>Água no copinho</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock home">
+        <div class="ttime">12h00</div>
+        <div class="tcont">
+          <div class="ttitle">Seu almoço <span class="tag tag-you">Franciane</span></div>
+          <div class="tdet"><ul>
+            <li>4 col. arroz integral + 1 concha feijão + 120g frango + salada + azeite</li>
+            <li>Oliver no tapete perto enquanto você almoça</li>
+            <li>Após: lavar cadeirão e louça do Oliver (5 min)</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock">
+        <div class="ttime">12h30</div>
+        <div class="tcont">
+          <div class="ttitle">Brincadeira com o Oliver</div>
+          <div class="tdet"><ul>
+            <li>20–30 min de brincadeira ativa com você presente</li>
+            <li>Livros, latas, borboleta, empilhador</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock home">
+        <div class="ttime">13h15</div>
+        <div class="tcont">
+          <div class="ttitle">Casa + papa do jantar <span class="tag tag-home">casa</span></div>
+          <div class="tdet"><ul>
+            <li>Oliver no tapete no mesmo cômodo</li>
+            <li>Montar papa do jantar do Oliver com o lote já cozido</li>
+            <li>1 tarefa de casa: varrer, banheiro, roupa ou cozinha</li>
+            <li>Mamadeira 2 do Oliver se pedir (até 210ml)</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="period-tag">Tarde</div>
+
+      <div class="tblock baby">
+        <div class="ttime">14h30</div>
+        <div class="tcont">
+          <div class="ttitle">Fruta da tarde <span class="tag tag-baby">Oliver</span></div>
+          <div class="tdet"><ul>
+            <li>Melancia, uva sem casca, pêssego — no cadeirão</li>
+            <li>Seu lanche: 1 fruta + 2 fatias queijo branco</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock baby">
+        <div class="ttime">15h00</div>
+        <div class="tcont">
+          <div class="ttitle">Soneca 2 <span class="tag tag-baby">Oliver</span></div>
+          <div class="tdet"><ul>
+            <li>45 min–1h · não passar das 16h30</li>
+            <li>Mesma rotina da soneca 1</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock work">
+        <div class="ttime">15h10</div>
+        <div class="tcont">
+          <div class="ttitle">Trabalho — bloco 2 <span class="tag tag-you">Franciane</span></div>
+          <div class="tdet"><ul>
+            <li>45 min a 1h — e-mails, mensagens, tarefas simples</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="period-tag">Final da tarde</div>
+
+      <div class="tblock">
+        <div class="ttime">16h30</div>
+        <div class="tcont">
+          <div class="ttitle">Oliver acorda · tarde calma</div>
+          <div class="tdet"><ul>
+            <li>Troca, colo, brincadeiras calmas</li>
+            <li>Banho morno se ainda não deu</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock baby">
+        <div class="ttime">17h00</div>
+        <div class="tcont">
+          <div class="ttitle">Jantar do Oliver <span class="tag tag-baby">Oliver</span></div>
+          <div class="tdet"><ul>
+            <li>Papa salgada: 8–10 col. sobremesa — grupos separados</li>
+            <li>Variação do almoço: cereal + proteína + hortaliça diferente + óleo de canola</li>
+            <li>Após: banho (se não deu), pijama</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock baby">
+        <div class="ttime">17h40</div>
+        <div class="tcont">
+          <div class="ttitle">Rotina de sono <span class="tag tag-baby">Oliver</span></div>
+          <div class="tdet"><ul>
+            <li>Quarto escuro · mamadeira 3 (até 210ml) no colo · berço sonolento</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock">
+        <div class="ttime">18–19h</div>
+        <div class="tcont">
+          <div class="ttitle">Oliver dorme <span class="tag tag-green">meta</span></div>
+          <div class="tdet"><ul>
+            <li>Variação 18–19h é normal</li>
+            <li>Soneca 2 tarde = sono noturno mais tarde</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="period-tag">Noite — tempo seu</div>
+
+      <div class="tblock home">
+        <div class="ttime">19h00</div>
+        <div class="tcont">
+          <div class="ttitle">Jantar + fechar cozinha <span class="tag tag-home">casa</span></div>
+          <div class="tdet"><ul>
+            <li>Frango/ovo/peixe + legumes + 2 col. arroz (~310 kcal)</li>
+            <li>Rosuvastatina após o jantar</li>
+            <li>Lavar tudo, mamadeiras do Oliver prontas</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock work">
+        <div class="ttime">19h45</div>
+        <div class="tcont">
+          <div class="ttitle">Trabalho noturno <span class="tag tag-you">Franciane</span></div>
+          <div class="tdet"><ul>
+            <li>Bloco principal até ~21h — tarefas pesadas ou criativas</li>
+            <li>Defina antes de sentar. Celular em modo foco.</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="tblock you">
+        <div class="ttime">21h00</div>
+        <div class="tcont">
+          <div class="ttitle">Encerrar o dia <span class="tag tag-you">Franciane</span></div>
+          <div class="tdet"><ul>
+            <li>Melatonina agora (30–60 min antes de dormir)</li>
+            <li>Ceia opcional: iogurte ou leite morno (~80 kcal)</li>
+            <li>Separe roupa da academia, prepare amanhã</li>
+            <li>Meta de dormir: 21h30</li>
+          </ul></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- sub: checklist -->
+  <div id="rot-ck" style="display:none">
+    <div class="prog-wrap">
+      <div class="prog-top">
+        <span class="prog-lbl" id="pl">0 de 17 concluídas</span>
+        <span class="prog-pct" id="ppct">0%</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="pf" style="width:0%"></div></div>
+    </div>
+    <div class="ck-list">
+      <div class="ck-grp">Manhã cedo</div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-0">06h00</div><div class="ck-lbl editable" data-edit-key="ck-label-0">Academia (50 min) · Mecobe no cafe</div></div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-1">06h50</div><div class="ck-lbl editable" data-edit-key="ck-label-1">Cafe da manha · mamadeira pronta · arroz/feijao no fogo</div></div>
+      <div class="ck-grp">Manhã com o Oliver</div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-2">07h30</div><div class="ck-lbl editable" data-edit-key="ck-label-2">Oliver acorda · mamadeira 1 · troca</div></div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-3">07h50</div><div class="ck-lbl editable" data-edit-key="ck-label-3">Oliver no tapete · 1-2 tarefas rapidas</div></div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-4">09h00</div><div class="ck-lbl editable" data-edit-key="ck-label-4">Fruta da manha · agua</div></div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-5">09h45</div><div class="ck-lbl editable" data-edit-key="ck-label-5">Soneca 1 · trabalho bloco 1 (~1h)</div></div>
+      <div class="ck-grp">Meio do dia</div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-6">11h15</div><div class="ck-lbl editable" data-edit-key="ck-label-6">Oliver acorda · papa salgada almoco</div></div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-7">12h00</div><div class="ck-lbl editable" data-edit-key="ck-label-7">Seu almoco · lavar louca do Oliver</div></div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-8">12h30</div><div class="ck-lbl editable" data-edit-key="ck-label-8">Brincadeira ativa (20-30 min)</div></div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-9">13h15</div><div class="ck-lbl editable" data-edit-key="ck-label-9">Papa do jantar · tarefa de casa · mamadeira 2</div></div>
+      <div class="ck-grp">Tarde</div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-10">14h30</div><div class="ck-lbl editable" data-edit-key="ck-label-10">Fruta da tarde Oliver · seu lanche</div></div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-11">15h00</div><div class="ck-lbl editable" data-edit-key="ck-label-11">Soneca 2 · trabalho bloco 2 (~45 min)</div></div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-12">17h00</div><div class="ck-lbl editable" data-edit-key="ck-label-12">Jantar Oliver · banho · pijama · mamadeira 3</div></div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-13">18-19h</div><div class="ck-lbl editable" data-edit-key="ck-label-13">Oliver dorme</div></div>
+      <div class="ck-grp">Noite</div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-14">19h00</div><div class="ck-lbl editable" data-edit-key="ck-label-14">Jantar · Rosuvastatina · cozinha fechada</div></div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-15">19h45</div><div class="ck-lbl editable" data-edit-key="ck-label-15">Trabalho noturno</div></div>
+      <div class="ck-row" onclick="tg(this, event)"><div class="ck-box"><span class="ck-tick">✓</span></div><div class="ck-time editable" data-edit-key="ck-time-16">21h00</div><div class="ck-lbl editable" data-edit-key="ck-label-16">Melatonina · ceia · roupa academia · dormir 21h30</div></div>
+    </div>
+  </div>
+
+  <!-- sub: brincar sozinho -->
+  <div id="rot-brincar" style="display:none">
+    <div class="info-box blue" style="margin-top:16px">
+      <strong>Por que o Oliver vem atrás de você?</strong><br>
+      Fase de angústia de separação — neurológico e saudável. Enquanto ele te vê, consegue brincar 10–20 min.
+    </div>
+    <div class="slabel">Regra principal</div>
+    <div class="tip"><div class="tip-title">Mesmo cômodo sempre</div><div class="tip-body">Não tente sair de perto — leve ele junto. Monte o tapete onde você vai trabalhar. Com você à vista, ele tolera ficar sozinho.</div></div>
+    <div class="slabel">Cantinho seguro</div>
+    <div class="tip amber"><div class="tip-title">Como montar</div><div class="tip-body"><ul>
+      <li>Tapete de EVA longe de tomadas e quinas</li>
+      <li>Grade dobrável delimita área segura</li>
+      <li>Latas, potes, caixinhas, bola — objetos variados</li>
+      <li>Troque os brinquedos a cada 2–3 dias</li>
+    </ul></div></div>
+    <div class="tip"><div class="tip-title">Técnica: 5 min antes de afastar</div><div class="tip-body">Sente no chão com ele por 5 min antes de qualquer tarefa. Ele se "abastece" de atenção e aguentar mais tempo sozinho depois.</div></div>
+    <div class="slabel">O que funciona com ele por perto</div>
+    <div class="tip blue"><div class="tip-title">Tarefas compatíveis</div><div class="tip-body"><ul>
+      <li>Dobrar roupa, varrer, organizar sala</li>
+      <li>Lavar louça — cadeirinha ao lado da pia</li>
+      <li>Cozinhar coisas simples — longe do fogão</li>
+    </ul></div></div>
+    <div class="tip coral"><div class="tip-title">Tarefas incompatíveis (guardar pra soneca)</div><div class="tip-body"><ul>
+      <li>Trabalho com leitura/escrita concentrada</li>
+      <li>Óleo quente, panela de pressão</li>
+      <li>Limpeza com produto químico</li>
+    </ul></div></div>
+  </div>
+
+</div>
+
+<!-- ══ OLIVER ══════════════════════════════════ -->
+<div class="page" id="pg-oliver">
+
+  <div class="pill-nav">
+    <button class="pill on" onclick="subNav('oli','oli-ali',this)">Alimentação</button>
+    <button class="pill" onclick="subNav('oli','oli-sono',this)">Sono</button>
+    <button class="pill" onclick="subNav('oli','oli-dr',this)">Dr. Gleyson</button>
+  </div>
+
+  <!-- sub: alimentação -->
+  <div id="oli-ali">
+
+    <div class="slabel">Dia do Oliver</div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Horários de todas as refeições</span></div>
+      <div class="card-row"><div class="cr-l">07h30</div><div class="cr-r">🍼 Mamadeira 1 — ao acordar (até 210ml)</div></div>
+      <div class="card-row"><div class="cr-l">09h00</div><div class="cr-r">🍌 Fruta da manhã — antes da soneca 1</div></div>
+      <div class="card-row"><div class="cr-l">11h15</div><div class="cr-r">🍽 Papa salgada — almoço (8–10 col. sobremesa)</div></div>
+      <div class="card-row"><div class="cr-l">13h15</div><div class="cr-r">🍼 Mamadeira 2 — se pedir (até 210ml)</div></div>
+      <div class="card-row"><div class="cr-l">14h30</div><div class="cr-r">🍉 Fruta da tarde — antes da soneca 2</div></div>
+      <div class="card-row"><div class="cr-l">17h00</div><div class="cr-r">🍽 Papa salgada — jantar (8–10 col. sobremesa)</div></div>
+      <div class="card-row"><div class="cr-l">17h40</div><div class="cr-r">🍼 Mamadeira 3 — quarto escuro, antes de dormir (até 210ml)</div></div>
+    </div>
+
+    <div class="slabel">Frutas</div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Fruta da manhã · 09h00</span><span class="card-sub">antes da soneca 1</span></div>
+      <div class="card-row"><div class="cr-l">Banana</div><div class="cr-r">½ unidade amassada</div></div>
+      <div class="card-row"><div class="cr-l">Mamão</div><div class="cr-r">2 col. sopa amassado</div></div>
+      <div class="card-row"><div class="cr-l">Pera / maçã / manga</div><div class="cr-r">2 col. sopa amassada</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Fruta da tarde · 14h30</span><span class="card-sub">antes da soneca 2</span></div>
+      <div class="card-row"><div class="cr-l">Melancia</div><div class="cr-r">2–3 col. sopa em pedaços</div></div>
+      <div class="card-row"><div class="cr-l">Uva</div><div class="cr-r">3–4 un. sem casca, cortadas ao meio</div></div>
+      <div class="card-row"><div class="cr-l">Pêssego / ameixa</div><div class="cr-r">2 col. sopa amassada</div></div>
+    </div>
+
+    <div class="slabel">Papa salgada — Dr. Gleyson</div>
+    <div class="info-box green">
+      <strong>Regra:</strong> 8–10 colheres de sobremesa por refeição · alimentos <strong>separados</strong> no prato · 1 col. óleo de canola só na hora de servir (não cozinhar)
+    </div>
+
+    <div class="meal">
+      <div class="meal-head"><span class="meal-title">Almoço · 11h15</span><span class="meal-kcal">8–10 col. sobremesa</span></div>
+      <div class="meal-row"><span class="meal-name">🌾 Cereal ou tubérculo</span><span class="meal-qty">arroz, macarrão, batata, mandioca</span></div>
+      <div class="meal-row"><span class="meal-name">🫘 Leguminosa</span><span class="meal-qty">feijão, ervilha, lentilha</span></div>
+      <div class="meal-row"><span class="meal-name">🍗 Proteína animal</span><span class="meal-qty">frango, carne, ovo cozido, peixe</span></div>
+      <div class="meal-row"><span class="meal-name">🥕 Hortaliça</span><span class="meal-qty">cenoura, abobrinha, espinafre, acelga</span></div>
+      <div class="meal-row"><span class="meal-name">🫙 Óleo de canola</span><span class="meal-qty">1 col. sobremesa — só na papa pronta</span></div>
+    </div>
+
+    <div class="meal">
+      <div class="meal-head"><span class="meal-title">Jantar · 17h00</span><span class="meal-kcal">variar do almoço</span></div>
+      <div class="meal-row"><span class="meal-name">🌾 Cereal ou tubérculo</span><span class="meal-qty">diferente do almoço</span></div>
+      <div class="meal-row"><span class="meal-name">🫘 Leguminosa</span><span class="meal-qty">pode repetir</span></div>
+      <div class="meal-row"><span class="meal-name">🍗 Proteína animal</span><span class="meal-qty">diferente do almoço</span></div>
+      <div class="meal-row"><span class="meal-name">🥕 Hortaliça</span><span class="meal-qty">beterraba, chuchu, vagem, berinjela</span></div>
+      <div class="meal-row"><span class="meal-name">🫙 Óleo de canola</span><span class="meal-qty">1 col. sobremesa — só na papa pronta</span></div>
+    </div>
+
+    <div class="tip amber">
+      <div class="tip-title">Montagem do prato</div>
+      <div class="tip-body">Cada grupo separado no prato — Oliver precisa ver, cheirar e provar cada sabor individualmente. Não misture tudo. Isso facilita a aceitação a longo prazo.</div>
+    </div>
+  </div>
+
+  <!-- sub: sono -->
+  <div id="oli-sono" style="display:none">
+    <div class="slabel">Janelas de sono</div>
+    <div class="card">
+      <div class="card-row"><div class="cr-l">Soneca 1</div><div class="cr-r">09h45 · 1h–1h30 · acordado ~2h15 antes</div></div>
+      <div class="card-row"><div class="cr-l">Soneca 2</div><div class="cr-r">15h · 45min–1h · terminar até 16h30</div></div>
+      <div class="card-row"><div class="cr-l">Noite</div><div class="cr-r">18h–19h até ~07h30 (10–12h)</div></div>
+    </div>
+    <div class="slabel">Rotina — sempre igual</div>
+    <div class="card">
+      <div class="card-row"><div class="cr-l">1. Quarto escuro</div><div class="cr-r">blackout ou cortina grossa</div></div>
+      <div class="card-row"><div class="cr-l">2. Ruído branco</div><div class="cr-r">app, YouTube ou ventilador</div></div>
+      <div class="card-row"><div class="cr-l">3. Troca de fralda</div><div class="cr-r">calma, sem muita conversa</div></div>
+      <div class="card-row"><div class="cr-l">4. Mamadeira no colo</div><div class="cr-r">sentada na penumbra, silêncio</div></div>
+      <div class="card-row"><div class="cr-l">5. Berço acordado</div><div class="cr-r">sonolento, não dormindo</div></div>
+    </div>
+    <div class="tip coral"><div class="tip-title">Atenção à soneca 2</div><div class="tip-body">Se passar das 16h30, compromete o sono da noite inteira. Se não dormiu a soneca 2, antecipe o sono noturno para 17h30.</div></div>
+  </div>
+
+  <!-- sub: dr gleyson -->
+  <div id="oli-dr" style="display:none">
+    <div class="info-box blue" style="margin-top:16px">
+      <strong>Dr. Gleyson Müller — Pediatra CRM 107.798</strong><br>
+      Clínica Plexus · Descomplica Pediatra (YouTube)
+    </div>
+    <div class="slabel">Regras principais</div>
+    <div class="card">
+      <div class="card-row"><div class="cr-l">Alimentos separados</div><div class="cr-r">Cada grupo separado no prato — Oliver identifica cada sabor</div></div>
+      <div class="card-row"><div class="cr-l">8–10 exposições</div><div class="cr-r">Continue oferecendo se recusar — são necessárias 8–10 tentativas</div></div>
+      <div class="card-row"><div class="cr-l">Óleo de canola</div><div class="cr-r">1 col. sobremesa na papa JÁ PRONTA — não cozinhar</div></div>
+      <div class="card-row"><div class="cr-l">Sem sal</div><div class="cr-r">Tempere só com ervas: salsinha, cebolinha</div></div>
+      <div class="card-row"><div class="cr-l">Sem açúcar / mel</div><div class="cr-r">Mel proibido para menores de 1 ano</div></div>
+      <div class="card-row"><div class="cr-l">Ovo inteiro</div><div class="cr-r">Clara + gema — sempre bem cozido. Pode desde o 6º mês</div></div>
+      <div class="card-row"><div class="cr-l">Peixe</div><div class="cr-r">Merluza, tilápia sem espinhas. Pode desde o 6º mês</div></div>
+    </div>
+    <div class="slabel">O que é cada grupo</div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Hortaliças — legumes vs verduras</span></div>
+      <div class="card-row"><div class="cr-l">Legumes</div><div class="cr-r">Cenoura, beterraba, abóbora, chuchu, vagem, berinjela, pimentão</div></div>
+      <div class="card-row"><div class="cr-l">Verduras</div><div class="cr-r">Agrião, alface, espinafre, serralha, acelga, almeirão</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Cereais e tubérculos</span></div>
+      <div class="card-row"><div class="cr-l">Cereais</div><div class="cr-r">Arroz, milho, macarrão</div></div>
+      <div class="card-row"><div class="cr-l">Tubérculos</div><div class="cr-r">Batata, mandioca, cará, inhame, batata-doce</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ ALIMENTAÇÃO ═════════════════════════════ -->
+<div class="page" id="pg-alim">
+
+  <div class="pill-nav">
+    <button class="pill on" onclick="subNav('alim','alim-card',this)">Cardápio</button>
+    <button class="pill" onclick="subNav('alim','alim-coz',this)">Quando cozinhar</button>
+  </div>
+
+  <!-- sub: cardápio Franciane -->
+  <div id="alim-card">
+    <div class="macros" style="margin-top:16px">
+      <div class="macro-box"><div class="macro-val">1.500</div><div class="macro-lbl">kcal/dia</div></div>
+      <div class="macro-box"><div class="macro-val">120g</div><div class="macro-lbl">proteína</div></div>
+      <div class="macro-box"><div class="macro-val">150g</div><div class="macro-lbl">carb</div></div>
+      <div class="macro-box"><div class="macro-val">50g</div><div class="macro-lbl">gordura</div></div>
+    </div>
+
+    <div class="meal">
+      <div class="meal-head"><span class="meal-title">Café da manhã · 06h50</span><span class="meal-kcal">~380 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">2 ovos mexidos ou cozidos</span><span class="meal-qty">~140 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">1 fatia pão integral</span><span class="meal-qty">~80 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">1 fruta pequena</span><span class="meal-qty">~80 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">Café preto ou chá sem açúcar</span><span class="meal-qty">0</span></div>
+      <div class="meal-row"><span class="meal-name">1 copo leite desnatado (200ml)</span><span class="meal-qty">~70 kcal</span></div>
+    </div>
+
+    <div class="meal">
+      <div class="meal-head"><span class="meal-title">Lanche manhã · ~10h</span><span class="meal-kcal">~190 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">1 iogurte natural desnatado (170g)</span><span class="meal-qty">~100 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">Castanhas (15g)</span><span class="meal-qty">~90 kcal</span></div>
+    </div>
+
+    <div class="meal">
+      <div class="meal-head"><span class="meal-title">Almoço · 12h00</span><span class="meal-kcal">~480 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">4 col. sopa arroz integral</span><span class="meal-qty">~140 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">1 concha feijão</span><span class="meal-qty">~80 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">120g frango grelhado ou carne magra</span><span class="meal-qty">~180 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">Salada à vontade</span><span class="meal-qty">~30 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">1 col. chá azeite de oliva</span><span class="meal-qty">~45 kcal</span></div>
+    </div>
+
+    <div class="meal">
+      <div class="meal-head"><span class="meal-title">Lanche tarde · 14h30</span><span class="meal-kcal">~180 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">1 fruta (laranja, pera ou mamão)</span><span class="meal-qty">~80 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">2 fatias queijo branco minas</span><span class="meal-qty">~100 kcal</span></div>
+    </div>
+
+    <div class="meal">
+      <div class="meal-head"><span class="meal-title">Jantar · 19h00</span><span class="meal-kcal">~310 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">100g frango, 2 ovos ou peixe</span><span class="meal-qty">~150 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">Legumes refogados ou no vapor</span><span class="meal-qty">~80 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">2 col. arroz ou batata-doce</span><span class="meal-qty">~80 kcal</span></div>
+    </div>
+
+    <div class="meal">
+      <div class="meal-head"><span class="meal-title">Ceia · 21h</span><span class="meal-kcal">~80 kcal</span></div>
+      <div class="meal-row"><span class="meal-name">Iogurte desnatado ou leite morno</span><span class="meal-qty">~80 kcal</span></div>
+    </div>
+
+    <div class="slabel">Evitar</div>
+    <div class="tip coral"><div class="tip-title">Cortar para emagrecer mais rápido</div><div class="tip-body"><ul>
+      <li>Refrigerante, suco de caixinha, achocolatado</li>
+      <li>Frituras e fast food</li>
+      <li>Pão branco, biscoito recheado, bolo industrializado</li>
+      <li>Açúcar no café — troque por adoçante ou tome puro</li>
+    </ul></div></div>
+  </div>
+
+  <!-- sub: quando cozinhar -->
+  <div id="alim-coz" style="display:none">
+    <div class="info-box green" style="margin-top:16px"><strong>Estratégia:</strong> cozinhe em lote. Frango, arroz e legumes duram 3 dias na geladeira — elimina a necessidade de cozinhar todo dia.</div>
+
+    <div class="slabel">Janela 1 · 06h50</div>
+    <div class="tblock home" style="margin-bottom:6px">
+      <div class="ttime">06h50</div>
+      <div class="tcont">
+        <div class="ttitle">Arroz + feijão do dia</div>
+        <div class="tdet"><ul>
+          <li>Se não sobrou de ontem: arroz e feijão no fogo durante o banho</li>
+          <li>Faça 2–3 xícaras de arroz de uma vez — dura 3 dias</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="slabel">Janela 2 · 09h55 (soneca 1)</div>
+    <div class="tblock home" style="margin-bottom:6px">
+      <div class="ttime">09h55</div>
+      <div class="tcont">
+        <div class="ttitle">Frango em lote + legumes base</div>
+        <div class="tdet"><ul>
+          <li>Cozinhe 400–500g de frango — rende 3 dias pra você e pro Oliver</li>
+          <li>Legumes: abobrinha, cenoura, batata-doce juntos numa panela</li>
+          <li>Guarde em potes separados na geladeira</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="slabel">Janela 3 · 13h15 (Oliver no tapete)</div>
+    <div class="tblock home" style="margin-bottom:6px">
+      <div class="ttime">13h15</div>
+      <div class="tcont">
+        <div class="ttitle">Papa do jantar do Oliver</div>
+        <div class="tdet"><ul>
+          <li>Use o lote já cozido — monte os grupos separados no potinho</li>
+          <li>Sem sal — tempere com salsinha/cebolinha</li>
+          <li>Óleo de canola só na hora de servir (às 17h)</li>
+          <li>Guarde na geladeira</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="slabel">Janela 4 · 19h (Oliver dormindo)</div>
+    <div class="tblock home" style="margin-bottom:6px">
+      <div class="ttime">19h00</div>
+      <div class="tcont">
+        <div class="ttitle">Seu jantar + fechar cozinha</div>
+        <div class="tdet"><ul>
+          <li>Frango do lote (já pronto) ou ovo mexido (5 min)</li>
+          <li>Legumes do lote refogados rapidamente no azeite</li>
+          <li>Lavar tudo, limpar fogão, mamadeiras de amanhã</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="slabel">Lista de compras semanal</div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Proteínas</span><span class="card-sub">2x por semana</span></div>
+      <div class="card-row"><div class="cr-l">Frango (filé)</div><div class="cr-r">1 kg — 3 dias de lote</div></div>
+      <div class="card-row"><div class="cr-l">Ovos</div><div class="cr-r">1 cartela (12 un.)</div></div>
+      <div class="card-row"><div class="cr-l">Peixe</div><div class="cr-r">200g para 2 jantares</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Carboidratos e legumes</span><span class="card-sub">1x por semana</span></div>
+      <div class="card-row"><div class="cr-l">Arroz integral</div><div class="cr-r">1 kg dura ~2 semanas</div></div>
+      <div class="card-row"><div class="cr-l">Feijão</div><div class="cr-r">500g dura a semana</div></div>
+      <div class="card-row"><div class="cr-l">Batata-doce</div><div class="cr-r">500g</div></div>
+      <div class="card-row"><div class="cr-l">Abobrinha, cenoura, brócolis</div><div class="cr-r">3–4 dias de legume base</div></div>
+      <div class="card-row"><div class="cr-l">Frutas variadas</div><div class="cr-r">Para Oliver e para você</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Laticínios e extras</span></div>
+      <div class="card-row"><div class="cr-l">Iogurte desnatado</div><div class="cr-r">4–6 unidades</div></div>
+      <div class="card-row"><div class="cr-l">Queijo branco minas</div><div class="cr-r">200g</div></div>
+      <div class="card-row"><div class="cr-l">Castanhas</div><div class="cr-r">100g — porções de 15g</div></div>
+      <div class="card-row"><div class="cr-l">Azeite de oliva</div><div class="cr-r">1 frasco pequeno</div></div>
+      <div class="card-row"><div class="cr-l">Óleo de canola</div><div class="cr-r">Para a papa do Oliver</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ TREINO ═══════════════════════════════════ -->
+<div class="page" id="pg-treino">
+
+  <div class="pill-nav">
+    <button class="pill on" onclick="subNav('tr','tr-plano',this)">Plano</button>
+    <button class="pill" onclick="subNav('tr','tr-aca',this)">Academia</button>
+    <button class="pill" onclick="subNav('tr','tr-casa',this)">Em casa</button>
+  </div>
+
+  <!-- sub: plano -->
+  <div id="tr-plano">
+    <div class="slabel">Semana</div>
+    <div class="week-grid">
+      <div class="wday on"><div class="wd-name">Seg</div><div class="wd-type">Academia A</div></div>
+      <div class="wday off"><div class="wd-name">Ter</div><div class="wd-type">Descanso</div></div>
+      <div class="wday on"><div class="wd-name">Qua</div><div class="wd-type">Academia B</div></div>
+      <div class="wday off"><div class="wd-name">Qui</div><div class="wd-type">Descanso</div></div>
+      <div class="wday on"><div class="wd-name">Sex</div><div class="wd-type">Academia A</div></div>
+      <div class="wday off"><div class="wd-name">Sáb</div><div class="wd-type">Casa/caminhada</div></div>
+      <div class="wday off"><div class="wd-name">Dom</div><div class="wd-type">Descanso</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Treino A · Seg e Sex · 06h–06h50</span><span class="card-sub">Peito · Ombro · Tríceps</span></div>
+      <div class="card-row"><div class="cr-l">Aquecimento</div><div class="cr-r">10 min esteira 5–6 km/h</div></div>
+      <div class="card-row"><div class="cr-l">Musculação</div><div class="cr-r">Peito + ombro + tríceps · ~25 min</div></div>
+      <div class="card-row"><div class="cr-l">Cardio final</div><div class="cr-r">20 min bike ou elíptico moderado</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Treino B · Quarta · 06h–06h50</span><span class="card-sub">Costas · Bíceps · Abdômen</span></div>
+      <div class="card-row"><div class="cr-l">Aquecimento</div><div class="cr-r">10 min esteira</div></div>
+      <div class="card-row"><div class="cr-l">Musculação</div><div class="cr-r">Costas + bíceps + abdômen · ~25 min</div></div>
+      <div class="card-row"><div class="cr-l">Cardio final</div><div class="cr-r">20 min elíptico moderado</div></div>
+    </div>
+    <div class="slabel">Metas</div>
+    <div class="macros">
+      <div class="macro-box"><div class="macro-val" style="font-size:16px">36,9</div><div class="macro-lbl">IMC atual</div></div>
+      <div class="macro-box"><div class="macro-val" style="font-size:16px">65 kg</div><div class="macro-lbl">meta</div></div>
+      <div class="macro-box"><div class="macro-val" style="font-size:16px">500</div><div class="macro-lbl">déficit kcal</div></div>
+      <div class="macro-box"><div class="macro-val" style="font-size:16px">~2 kg</div><div class="macro-lbl">por mês</div></div>
+    </div>
+  </div>
+
+  <!-- sub: academia -->
+  <div id="tr-aca" style="display:none">
+    <div class="slabel">Treino A — Seg e Sex</div>
+    <div class="ex-list">
+      <div class="ex-item"><div class="ex-num">01</div><div class="ex-body"><div class="ex-name">Esteira <span class="etag et-b">cardio</span></div><div class="ex-det">10 min · 5–6 km/h · inclinação 1–2%</div></div></div>
+      <div class="ex-item"><div class="ex-num">02</div><div class="ex-body"><div class="ex-name">Supino com halteres <span class="etag et-g">peito</span></div><div class="ex-det">3 séries × 12 reps · 60s descanso</div></div></div>
+      <div class="ex-item"><div class="ex-num">03</div><div class="ex-body"><div class="ex-name">Crucifixo no cross (cabo baixo) <span class="etag et-g">peito</span></div><div class="ex-det">3 séries × 15 reps · 60s · fios de baixo, junte em arco</div></div></div>
+      <div class="ex-item"><div class="ex-num">04</div><div class="ex-body"><div class="ex-name">Elevação lateral <span class="etag et-a">ombro</span></div><div class="ex-det">3 séries × 12 reps · 60s · cotovelo levemente dobrado</div></div></div>
+      <div class="ex-item"><div class="ex-num">05</div><div class="ex-body"><div class="ex-name">Desenvolvimento com halteres <span class="etag et-a">ombro</span></div><div class="ex-det">3 séries × 12 reps · 60s · empurre para cima</div></div></div>
+      <div class="ex-item"><div class="ex-num">06</div><div class="ex-body"><div class="ex-name">Tríceps no cross (cabo alto) <span class="etag et-c">tríceps</span></div><div class="ex-det">3 séries × 15 reps · 60s · cotovelos colados, empurre para baixo</div></div></div>
+      <div class="ex-item"><div class="ex-num">07</div><div class="ex-body"><div class="ex-name">Bike ou Elíptico <span class="etag et-b">cardio</span></div><div class="ex-det">20 min · intensidade moderada</div></div></div>
+    </div>
+    <div class="slabel">Treino B — Quarta</div>
+    <div class="ex-list">
+      <div class="ex-item"><div class="ex-num">01</div><div class="ex-body"><div class="ex-name">Esteira <span class="etag et-b">cardio</span></div><div class="ex-det">10 min · 5–6 km/h</div></div></div>
+      <div class="ex-item"><div class="ex-num">02</div><div class="ex-body"><div class="ex-name">Remada no cross (cabo baixo) <span class="etag et-g">costas</span></div><div class="ex-det">3 séries × 12 reps · puxe ao umbigo, cotovelos para trás</div></div></div>
+      <div class="ex-item"><div class="ex-num">03</div><div class="ex-body"><div class="ex-name">Puxada no cross (cabo alto) <span class="etag et-g">costas</span></div><div class="ex-det">3 séries × 12 reps · puxe até o peito, cotovelos para baixo</div></div></div>
+      <div class="ex-item"><div class="ex-num">04</div><div class="ex-body"><div class="ex-name">Rosca direta <span class="etag et-a">bíceps</span></div><div class="ex-det">3 séries × 12 reps · cotovelos fixos ao corpo</div></div></div>
+      <div class="ex-item"><div class="ex-num">05</div><div class="ex-body"><div class="ex-name">Rosca martelo <span class="etag et-a">bíceps</span></div><div class="ex-det">3 séries × 12 reps · halteres na vertical</div></div></div>
+      <div class="ex-item"><div class="ex-num">06</div><div class="ex-body"><div class="ex-name">Abdominal supra <span class="etag et-c">abdômen</span></div><div class="ex-det">3 séries × 20 reps · 45s · joelhos dobrados</div></div></div>
+      <div class="ex-item"><div class="ex-num">07</div><div class="ex-body"><div class="ex-name">Prancha isométrica <span class="etag et-c">core</span></div><div class="ex-det">3 séries × 30s · antebraços, corpo reto</div></div></div>
+      <div class="ex-item"><div class="ex-num">08</div><div class="ex-body"><div class="ex-name">Elíptico <span class="etag et-b">cardio</span></div><div class="ex-det">20 min · use os braços para aumentar o gasto</div></div></div>
+    </div>
+  </div>
+
+  <!-- sub: em casa -->
+  <div id="tr-casa" style="display:none">
+    <div class="info-box amber" style="margin-top:16px">Para quando não der ir à academia · 30 min sem equipamento · foco em pernas e glúteo</div>
+    <div class="ex-list" style="margin-top:12px">
+      <div class="ex-item"><div class="ex-num">01</div><div class="ex-body"><div class="ex-name">Agachamento livre <span class="etag et-g">pernas/glúteo</span></div><div class="ex-det">4 séries × 15 reps · 45s · pés na largura dos ombros</div></div></div>
+      <div class="ex-item"><div class="ex-num">02</div><div class="ex-body"><div class="ex-name">Avanço alternado <span class="etag et-g">pernas</span></div><div class="ex-det">3 séries × 12 reps cada perna · 45s</div></div></div>
+      <div class="ex-item"><div class="ex-num">03</div><div class="ex-body"><div class="ex-name">Elevação de quadril <span class="etag et-g">glúteo</span></div><div class="ex-det">4 séries × 20 reps · 45s · esprema o glúteo no topo</div></div></div>
+      <div class="ex-item"><div class="ex-num">04</div><div class="ex-body"><div class="ex-name">Flexão de braço (joelhos) <span class="etag et-a">superior</span></div><div class="ex-det">3 séries × 10 reps · 45s</div></div></div>
+      <div class="ex-item"><div class="ex-num">05</div><div class="ex-body"><div class="ex-name">Mountain climber <span class="etag et-b">cardio/core</span></div><div class="ex-det">3 séries × 30s · joelhos ao peito o mais rápido possível</div></div></div>
+      <div class="ex-item"><div class="ex-num">06</div><div class="ex-body"><div class="ex-name">Polichinelo <span class="etag et-b">cardio</span></div><div class="ex-det">3 séries × 40s · 20s descanso</div></div></div>
+      <div class="ex-item"><div class="ex-num">07</div><div class="ex-body"><div class="ex-name">Abdominal bicicleta <span class="etag et-c">abdômen</span></div><div class="ex-det">3 séries × 20 reps · cotovelo ao joelho oposto</div></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ SAÚDE ════════════════════════════════════ -->
+<div class="page" id="pg-saude">
+
+  <div class="pill-nav">
+    <button class="pill on" onclick="subNav('sau','sau-meds',this)">Medicamentos</button>
+    <button class="pill" onclick="subNav('sau','sau-dicas',this)">Dicas</button>
+  </div>
+
+  <!-- sub: medicamentos -->
+  <div id="sau-meds">
+    <div class="slabel">Resumo de horários</div>
+    <div class="card">
+      <div class="card-row"><div class="cr-l">Mecobe (B12)</div><div class="cr-r">06h50 · com o café da manhã</div></div>
+      <div class="card-row"><div class="cr-l">Rosuvastatina</div><div class="cr-r">19h30 · após o jantar</div></div>
+      <div class="card-row"><div class="cr-l">Melatonina</div><div class="cr-r">21h · 30–60 min antes de dormir</div></div>
+    </div>
+    <div class="slabel">Detalhes</div>
+    <div class="med purple">
+      <div class="med-name">Mecobe — Metilcobalamina (B12)</div>
+      <div class="med-time">06h50 · café da manhã</div>
+      <div class="med-body"><ul>
+        <li>Vitamina B12 ativa — energia, sistema nervoso, metabolismo</li>
+        <li>Melhora disposição e reduz cansaço — importante nos dias de treino</li>
+        <li>Pode melhorar humor e foco ao longo das semanas</li>
+      </ul></div>
+    </div>
+    <div class="med green">
+      <div class="med-name">Rusovas — Rosuvastatina</div>
+      <div class="med-time">19h30 · após o jantar</div>
+      <div class="med-body"><ul>
+        <li>Reduz colesterol LDL e triglicerídeos</li>
+        <li>Com exercício regular, o efeito é potencializado</li>
+        <li>Não tome com antiácidos de magnésio/alumínio (espere 2h)</li>
+        <li>Se sentir dor muscular (mialgia): avise o médico</li>
+      </ul></div>
+    </div>
+    <div class="med amber">
+      <div class="med-name">Melatonina</div>
+      <div class="med-time">21h · antes de dormir</div>
+      <div class="med-body"><ul>
+        <li>Regula o ritmo circadiano — hormônio do sono</li>
+        <li>Evite tela (celular, TV) após tomar</li>
+        <li>Não cria dependência — regulariza o sono</li>
+        <li>Com Oliver dormindo às 19h, você tem ambiente ideal</li>
+      </ul></div>
+    </div>
+    <div class="info-box coral" style="margin-top:4px;font-size:12px">Orientações informativas. Siga sempre as instruções do seu médico. Não altere doses sem orientação.</div>
+  </div>
+
+  <!-- sub: dicas -->
+  <div id="sau-dicas" style="display:none">
+    <div class="tip"><div class="tip-title">Emagrecimento é processo, não pressa</div><div class="tip-body">Com déficit de 500 kcal/dia e 3x treino/semana: 1,5–2 kg/mês. Em 9–12 meses você chega perto dos 65 kg sem efeito sanfona.</div></div>
+    <div class="tip amber"><div class="tip-title">Peso na balança pode enganar</div><div class="tip-body"><ul>
+      <li>Músculo pesa mais que gordura — peso pode estabilizar enquanto emagrece</li>
+      <li>Meça a circunferência da cintura a cada 2 semanas</li>
+      <li>Fotos mensais mostram progresso que a balança esconde</li>
+    </ul></div></div>
+    <div class="tip blue"><div class="tip-title">Sono é parte do emagrecimento</div><div class="tip-body"><ul>
+      <li>Dormir mal aumenta cortisol — retém gordura abdominal</li>
+      <li>A melatonina vai ajudar nisso</li>
+      <li>Com Oliver às 19h e você às 21h30: quase 8h de sono</li>
+    </ul></div></div>
+    <div class="tip coral"><div class="tip-title">Consistência vale mais que intensidade</div><div class="tip-body"><ul>
+      <li>3x todo mês é melhor do que 5x por 2 semanas e parar</li>
+      <li>Nos dias ruins: 20 min em vez de 60 — mas não fique em zero</li>
+      <li>Um doce não destrói a dieta — largar tudo depois que destrói</li>
+    </ul></div></div>
+  </div>
+
+</div>
+
+<!-- ══ BRINQUEDOS ══════════════════════════════ -->
+<div class="page" id="pg-brinq">
+
+  <div class="pill-nav">
+    <button class="pill on" onclick="subNav('bq','bq-semana',this)">Semana</button>
+    <button class="pill" onclick="subNav('bq','bq-livros',this)">Livros</button>
+    <button class="pill" onclick="subNav('bq','bq-inv',this)">Inventário</button>
+  </div>
+
+  <!-- sub: semana -->
+  <div id="bq-semana">
+    <div class="acc-list" style="margin-top:12px">
+
+      <div class="acc" id="day-0"><div class="acc-head" onclick="tD('day-0')"><div class="acc-left"><div class="acc-dot" style="background:var(--c1);color:var(--c1t)">2ª</div><div><div class="acc-title">Segunda <span class="today-dot" id="today-0" style="display:none">hoje</span></div><div class="acc-sub">Mordedores + latas + cobra</div></div></div><div class="acc-arr">▼</div></div>
+        <div class="acc-body"><div class="acc-section">Brinquedos</div>
+          <div class="toy-item"><div class="toy-icon">🐍</div><div><div class="toy-name">Cobra de pelúcia verde</div><div class="toy-why">Texturas, apertar, explorar</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🥫</div><div><div class="toy-name">Latas de leite (3–4)</div><div class="toy-why">Empilhar, derrubar, colocar coisas dentro</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🦷</div><div><div class="toy-name">Mordedores variados (3 peças)</div><div class="toy-why">Alívio dentição, exploração tátil</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🔴</div><div><div class="toy-name">Caixinha de tecido vermelha</div><div class="toy-why">Amassa, aperta, sensorial</div></div></div>
+          <div class="acc-section">Livros — Grupo A (seg, ter, qua)</div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">Lagarta Comilona · Ver Tocar Sentir · Seja! · FP Ter Amigos</div><div class="toy-why">4 livros acessíveis — Oliver folheia quando quiser</div></div></div>
+        </div>
+      </div>
+
+      <div class="acc" id="day-1"><div class="acc-head" onclick="tD('day-1')"><div class="acc-left"><div class="acc-dot" style="background:var(--c2);color:var(--c2t)">3ª</div><div><div class="acc-title">Terça <span class="today-dot" id="today-1" style="display:none">hoje</span></div><div class="acc-sub">Causa e efeito + giratório</div></div></div><div class="acc-arr">▼</div></div>
+        <div class="acc-body"><div class="acc-section">Brinquedos</div>
+          <div class="toy-item"><div class="toy-icon">🐘</div><div><div class="toy-name">Elefante azul com botões</div><div class="toy-why">Causa e efeito — favorito da fase</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🌀</div><div><div class="toy-name">Brinquedo giratório azul/vermelho</div><div class="toy-why">Raciocínio, giro e cores</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🌻</div><div><div class="toy-name">Brinquedo abelha/girassol</div><div class="toy-why">Texturas e cores</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🍊</div><div><div class="toy-name">Caixinha laranja</div><div class="toy-why">Abrir, fechar, colocar objetos</div></div></div>
+          <div class="acc-section">Livros — Grupo A (seg, ter, qua)</div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">Mesmos 4 do Grupo A</div><div class="toy-why">Oliver folheia à vontade</div></div></div>
+        </div>
+      </div>
+
+      <div class="acc" id="day-2"><div class="acc-head" onclick="tD('day-2')"><div class="acc-left"><div class="acc-dot" style="background:var(--c3);color:var(--c3t)">4ª</div><div><div class="acc-title">Quarta <span class="today-dot" id="today-2" style="display:none">hoje</span></div><div class="acc-sub">Borboleta + argolas + sensorial</div></div></div><div class="acc-arr">▼</div></div>
+        <div class="acc-body"><div class="acc-section">Brinquedos</div>
+          <div class="toy-item"><div class="toy-icon">🦋</div><div><div class="toy-name">Borboleta de atividades</div><div class="toy-why">Várias texturas, chocalho, espelho</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🌈</div><div><div class="toy-name">Encaixe de argolas arco-íris</div><div class="toy-why">Coordenação motora, empilhar e retirar</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🍶</div><div><div class="toy-name">Garrafa sensorial</div><div class="toy-why">Sacudir, ver o que se move — efeito calmante</div></div></div>
+          <div class="acc-section">Livros — Troca Grupo A → B (soneca da tarde)</div>
+          <div class="toy-item"><div class="toy-icon">🔄</div><div><div class="toy-name">Guarde Grupo A, coloque Grupo B</div><div class="toy-why">Oliver acorda com livros novos</div></div></div>
+        </div>
+      </div>
+
+      <div class="acc" id="day-3"><div class="acc-head" onclick="tD('day-3')"><div class="acc-left"><div class="acc-dot" style="background:var(--c4);color:var(--c4t)">5ª</div><div><div class="acc-title">Quinta <span class="today-dot" id="today-3" style="display:none">hoje</span></div><div class="acc-sub">Latas + chocalhos</div></div></div><div class="acc-arr">▼</div></div>
+        <div class="acc-body"><div class="acc-section">Brinquedos</div>
+          <div class="toy-item"><div class="toy-icon">🥫</div><div><div class="toy-name">Latas de leite (todas)</div><div class="toy-why">Torre pra derrubar, rolar, bater</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🔵</div><div><div class="toy-name">Chocalhos pequenos (4–5)</div><div class="toy-why">Sacudir, bater, transferir de mão</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🟦</div><div><div class="toy-name">Encaixe azul</div><div class="toy-why">Coordenação de mãos</div></div></div>
+          <div class="acc-section">Livros — Grupo B (qui, sex, sáb)</div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">FP Hora de Aprender · Meus Momentos · Clássicos de Ouro · FP Dormir</div><div class="toy-why">4 livros acessíveis</div></div></div>
+        </div>
+      </div>
+
+      <div class="acc" id="day-4"><div class="acc-head" onclick="tD('day-4')"><div class="acc-left"><div class="acc-dot" style="background:var(--c5);color:var(--c5t)">6ª</div><div><div class="acc-title">Sexta <span class="today-dot" id="today-4" style="display:none">hoje</span></div><div class="acc-sub">Livre — Oliver escolhe</div></div></div><div class="acc-arr">▼</div></div>
+        <div class="acc-body"><div class="acc-section">Brinquedos</div>
+          <div class="toy-item"><div class="toy-icon">🎲</div><div><div class="toy-name">Dia livre</div><div class="toy-why">6–8 brinquedos no tapete — observe o que ele busca</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🍳</div><div><div class="toy-name">Potes e objetos da cozinha</div><div class="toy-why">Tupperware, colher de pau — novidade sem custo</div></div></div>
+          <div class="acc-section">Livros — Grupo B</div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">Mesmos 4 do Grupo B</div><div class="toy-why">Oliver folheia à vontade</div></div></div>
+        </div>
+      </div>
+
+      <div class="acc" id="day-5"><div class="acc-head" onclick="tD('day-5')"><div class="acc-left"><div class="acc-dot" style="background:var(--c6);color:var(--c6t)">Sáb</div><div><div class="acc-title">Sábado <span class="today-dot" id="today-5" style="display:none">hoje</span></div><div class="acc-sub">Sensorial + musical</div></div></div><div class="acc-arr">▼</div></div>
+        <div class="acc-body"><div class="acc-section">Brinquedos</div>
+          <div class="toy-item"><div class="toy-icon">🎵</div><div><div class="toy-name">Chocalhos com sons diferentes</div><div class="toy-why">Banda do Oliver — cante junto</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🍶</div><div><div class="toy-name">Garrafa sensorial + lata tambor</div><div class="toy-why">Sacudir + bater</div></div></div>
+          <div class="toy-item"><div class="toy-icon">🌈</div><div><div class="toy-name">Argolas arco-íris no chão</div><div class="toy-why">Explorar livre, empilhar, jogar</div></div></div>
+          <div class="acc-section">Livros — Grupo B (último dia)</div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">Domingo tem maratona livre</div><div class="toy-why">Todos os livros no chão amanhã</div></div></div>
+        </div>
+      </div>
+
+      <div class="acc" id="day-6"><div class="acc-head" onclick="tD('day-6')"><div class="acc-left"><div class="acc-dot" style="background:var(--c7);color:var(--c7t)">Dom</div><div><div class="acc-title">Domingo <span class="today-dot" id="today-6" style="display:none">hoje</span></div><div class="acc-sub">Colo + maratona de livros</div></div></div><div class="acc-arr">▼</div></div>
+        <div class="acc-body"><div class="acc-section">Brinquedos</div>
+          <div class="toy-item"><div class="toy-icon">🤗</div><div><div class="toy-name">Cobra de pelúcia + mordedor favorito</div><div class="toy-why">Domingo é calma</div></div></div>
+          <div class="acc-section">Livros — maratona livre</div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">Todos os livros no chão</div><div class="toy-why">Oliver escolhe. Leia quantos pedir. Folhear é aprendizado.</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- sub: livros -->
+  <div id="bq-livros" style="display:none">
+    <div class="acc-list" style="margin-top:12px">
+      <div class="acc" id="grp-a"><div class="acc-head" onclick="tD('grp-a')"><div class="acc-left"><div class="acc-dot" style="background:var(--c1);color:var(--c1t)">A</div><div><div class="acc-title">Grupo A · Seg, Ter, Qua</div><div class="acc-sub">4 livros ao mesmo tempo</div></div></div><div class="acc-arr">▼</div></div>
+        <div class="acc-body">
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">Uma Lagarta Muito Comilona</div><div class="toy-why">Cores fortes, buraco pra enfiar o dedo — favorito da fase</div></div></div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">Ver, Tocar e Sentir</div><div class="toy-why">Texturas para explorar junto</div></div></div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">Seja! (ouriço)</div><div class="toy-why">Imagens grandes, bom ritmo em voz alta</div></div></div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">FP: Como é bom Ter Amigos</div><div class="toy-why">Páginas grossas — Oliver folheia sozinho</div></div></div>
+        </div>
+      </div>
+      <div class="acc" id="grp-b"><div class="acc-head" onclick="tD('grp-b')"><div class="acc-left"><div class="acc-dot" style="background:var(--c3);color:var(--c3t)">B</div><div><div class="acc-title">Grupo B · Qui, Sex, Sáb</div><div class="acc-sub">4 livros diferentes</div></div></div><div class="acc-arr">▼</div></div>
+        <div class="acc-body">
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">FP: Hora de Aprender</div><div class="toy-why">Nomeie objetos, animais e cores juntos</div></div></div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">Meus Momentos</div><div class="toy-why">Foto dele — reconhecer o próprio rosto é hipnótico</div></div></div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">Clássicos de Ouro</div><div class="toy-why">Histórias com ilustrações ricas</div></div></div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">FP: Como é bom Dormir</div><div class="toy-why">Ideal pro ritual de sono</div></div></div>
+        </div>
+      </div>
+      <div class="acc" id="grp-c"><div class="acc-head" onclick="tD('grp-c')"><div class="acc-left"><div class="acc-dot" style="background:var(--c4);color:var(--c4t)">C</div><div><div class="acc-title">Grupo C · Reserva</div><div class="acc-sub">Guardar 1–2 semanas antes de usar</div></div></div><div class="acc-arr">▼</div></div>
+        <div class="acc-body">
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">João e Maria · Chapeuzinho Vermelho</div><div class="toy-why">Contos — use voz dramática</div></div></div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">Viagens de Gulliver</div><div class="toy-why">Imagens para apontar e nomear</div></div></div>
+          <div class="toy-item"><div class="toy-icon">📖</div><div><div class="toy-name">FP: Compartilhar · Ser Gentil · Panda · Leão</div><div class="toy-why">Reveze 1 por semana com A ou B</div></div></div>
+        </div>
+      </div>
+      <div class="acc" id="grp-sono"><div class="acc-head" onclick="tD('grp-sono')"><div class="acc-left"><div class="acc-dot" style="background:var(--c7);color:var(--c7t)">💤</div><div><div class="acc-title">Livro do sono</div><div class="acc-sub">Sempre o mesmo · ritual de dormir</div></div></div><div class="acc-arr">▼</div></div>
+        <div class="acc-body">
+          <div class="toy-item"><div class="toy-icon">🌙</div><div><div class="toy-name">FP: Como é bom Dormir (sugestão atual)</div><div class="toy-why">Leia antes de cada soneca e antes da noite. A repetição vira sinal de sono para o Oliver.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- sub: inventário -->
+  <div id="bq-inv" style="display:none">
+    <div class="slabel">Brinquedos</div>
+    <div class="chip-grid">
+      <div class="chip">🐍 Cobra pelúcia</div><div class="chip">🐘 Elefante botões</div>
+      <div class="chip">🦋 Borboleta atividades</div><div class="chip">🌈 Argolas arco-íris</div>
+      <div class="chip">🌀 Giratório azul/vermelho</div><div class="chip">🌻 Abelha/girassol</div>
+      <div class="chip">🍶 Garrafa sensorial</div><div class="chip">🥫 Latas (~6–7)</div>
+      <div class="chip">🦷 Mordedores (~8–10)</div><div class="chip">🎨 Chocalho arco-íris</div>
+      <div class="chip">🔴 Caixinha tecido</div><div class="chip">🍊 Caixinha laranja</div>
+    </div>
+    <div class="slabel">Livros</div>
+    <div class="chip-grid">
+      <div class="chip">📖 Lagarta Comilona</div><div class="chip">📖 Ver Tocar Sentir</div>
+      <div class="chip">📖 Seja! (ouriço)</div><div class="chip">📖 Meus Momentos</div>
+      <div class="chip">📖 João e Maria</div><div class="chip">📖 Clássicos de Ouro</div>
+      <div class="chip">📖 Chapeuzinho Vermelho</div><div class="chip">📖 FP Hora de Aprender</div>
+      <div class="chip">📖 FP Como é bom Dormir</div><div class="chip">📖 FP Ter Amigos</div>
+      <div class="chip">📖 FP Compartilhar</div><div class="chip">📖 FP Ser Gentil</div>
+      <div class="chip">📖 Leão + Panda FP</div><div class="chip">📖 Viagens de Gulliver</div>
+    </div>
+    <div class="slabel">Objetos do cotidiano</div>
+    <div class="chip-grid">
+      <div class="chip">🍳 Tupperware / potes</div><div class="chip">🥄 Colher de pau</div>
+      <div class="chip">📦 Caixas papelão</div><div class="chip">🧻 Rolo de papel vazio</div>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- /main -->
+
+<div class="footer">Franciane &amp; Oliver · <span style="color:var(--green)">Vocês estão indo muito bem 🌿</span></div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="bn-item active" onclick="goPage('pg-rotina',this)">
+    <span class="bn-icon">📅</span>
+    <span class="bn-label">Rotina</span>
+  </button>
+  <button class="bn-item" onclick="goPage('pg-oliver',this)">
+    <span class="bn-icon">👶</span>
+    <span class="bn-label">Oliver</span>
+  </button>
+  <button class="bn-item" onclick="goPage('pg-alim',this)">
+    <span class="bn-icon">🥗</span>
+    <span class="bn-label">Alimentação</span>
+  </button>
+  <button class="bn-item" onclick="goPage('pg-treino',this)">
+    <span class="bn-icon">💪</span>
+    <span class="bn-label">Treino</span>
+  </button>
+  <button class="bn-item" onclick="goPage('pg-saude',this)">
+    <span class="bn-icon">💊</span>
+    <span class="bn-label">Saúde</span>
+  </button>
+  <button class="bn-item" onclick="goPage('pg-brinq',this)">
+    <span class="bn-icon">🎲</span>
+    <span class="bn-label">Brinquedos</span>
+  </button>
+</nav>
+
+<script>
+/* ─ day/color vars ─ */
+const dc={
+  c1:'#E8F4FF',c1t:'#185FA5',c2:'#FFF3E0',c2t:'#8B4E00',
+  c3:'#E8F5E9',c3t:'#1B5E20',c4:'#FCE4EC',c4t:'#880E4F',
+  c5:'#EDE7F6',c5t:'#311B92',c6:'#E0F7FA',c6t:'#006064',c7:'#FFF8E1',c7t:'#F57F17'
+};
+const dcd={
+  c1:'#0A1A2C',c1t:'#85B7EB',c2:'#221608',c2t:'#FAC775',
+  c3:'#0A2419',c3t:'#5DCAA5',c4:'#2A0A14',c4t:'#F48FB1',
+  c5:'#18163A',c5t:'#AFA9EC',c6:'#002A2C',c6t:'#80DEEA',c7:'#221A00',c7t:'#FFE082'
+};
+const dm={0:6,1:0,2:1,3:2,4:3,5:4,6:5};
+const STORAGE_KEYS={
+  checklist:'fo-checklist-v1',
+  editable:'fo-editable-v1',
+  theme:'fo-theme-v1'
+};
+let editMode=false;
+
+/* ─ theme ─ */
+function tT(){
+  const h=document.documentElement;
+  const dk=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',dk?'light':'dark');
+  document.getElementById('tbtn').textContent=dk?'● escuro':'☀ claro';
+  localStorage.setItem(STORAGE_KEYS.theme,dk?'light':'dark');
+}
+
+/* ─ bottom nav pages ─ */
+function goPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('visible'));
+  document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('visible');
+  el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ─ sub nav ─ */
+const subMap={
+  rot:['rot-dia','rot-ck','rot-brincar'],
+  oli:['oli-ali','oli-sono','oli-dr'],
+  alim:['alim-card','alim-coz'],
+  tr:['tr-plano','tr-aca','tr-casa'],
+  sau:['sau-meds','sau-dicas'],
+  bq:['bq-semana','bq-livros','bq-inv']
+};
+function subNav(group,show,el){
+  subMap[group].forEach(id=>{
+    const e=document.getElementById(id);
+    if(e) e.style.display='none';
+  });
+  const t=document.getElementById(show);
+  if(t) t.style.display='block';
+  el.closest('.pill-nav').querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+}
+
+/* ─ accordion ─ */
+function tD(id){document.getElementById(id).classList.toggle('open')}
+
+/* ─ checklist ─ */
+function tg(row,ev){
+  if(editMode){
+    if(ev){ev.preventDefault();ev.stopPropagation();}
+    return;
+  }
+  row.querySelector('.ck-box').classList.toggle('on');
+  row.querySelector('.ck-lbl').classList.toggle('done');
+  saveChecklistState();
+  up();
+}
+function up(){
+  const t=document.querySelectorAll('.ck-row').length;
+  const d=document.querySelectorAll('.ck-box.on').length;
+  const pct=Math.round(d/t*100);
+  document.getElementById('pf').style.width=pct+'%';
+  document.getElementById('pl').textContent=d+' de '+t+' concluídas';
+  document.getElementById('ppct').textContent=pct+'%';
+}
+
+function saveChecklistState(){
+  const st=[...document.querySelectorAll('.ck-row')].map(r=>r.querySelector('.ck-box').classList.contains('on'));
+  localStorage.setItem(STORAGE_KEYS.checklist,JSON.stringify(st));
+}
+
+function loadChecklistState(){
+  const raw=localStorage.getItem(STORAGE_KEYS.checklist);
+  if(!raw){up();return;}
+  let st=[];
+  try{st=JSON.parse(raw);}catch(_){st=[];}
+  document.querySelectorAll('.ck-row').forEach((row,i)=>{
+    const isOn=Boolean(st[i]);
+    row.querySelector('.ck-box').classList.toggle('on',isOn);
+    row.querySelector('.ck-lbl').classList.toggle('done',isOn);
+  });
+  up();
+}
+
+function applySavedTheme(){
+  const sv=localStorage.getItem(STORAGE_KEYS.theme);
+  if(!sv) return;
+  const isDark=sv==='dark';
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  document.getElementById('tbtn').textContent=isDark?'☀ claro':'● escuro';
+}
+
+function saveEditableFields(){
+  const payload={};
+  document.querySelectorAll('.editable[data-edit-key]').forEach(el=>{
+    payload[el.dataset.editKey]=el.textContent.trim();
+  });
+  localStorage.setItem(STORAGE_KEYS.editable,JSON.stringify(payload));
+}
+
+function loadEditableFields(){
+  const raw=localStorage.getItem(STORAGE_KEYS.editable);
+  if(!raw) return;
+  let payload={};
+  try{payload=JSON.parse(raw);}catch(_){payload={};}
+  document.querySelectorAll('.editable[data-edit-key]').forEach(el=>{
+    const key=el.dataset.editKey;
+    if(typeof payload[key]==='string' && payload[key].length){
+      el.textContent=payload[key];
+    }
+  });
+}
+
+function bindEditableFields(){
+  document.querySelectorAll('.editable[data-edit-key]').forEach(el=>{
+    el.setAttribute('contenteditable','false');
+    el.addEventListener('click',e=>{if(editMode){e.stopPropagation();}});
+    el.addEventListener('blur',()=>{if(editMode) saveEditableFields();});
+  });
+}
+
+function toggleEditMode(){
+  editMode=!editMode;
+  document.body.classList.toggle('edit-mode',editMode);
+  document.getElementById('editBtn').textContent=editMode?'Concluir':'Editar';
+  document.querySelectorAll('.editable[data-edit-key]').forEach(el=>{
+    el.setAttribute('contenteditable',editMode?'true':'false');
+  });
+  if(!editMode) saveEditableFields();
+}
+
+function registerServiceWorker(){
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',()=>{
+      navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+    });
+  }
+}
+
+/* ─ today ─ */
+function markToday(){
+  const i=dm[new Date().getDay()];
+  const b=document.getElementById('today-'+i);
+  if(b) b.style.display='inline';
+  const c=document.getElementById('day-'+i);
+  if(c) c.classList.add('open');
+}
+markToday();
+applySavedTheme();
+bindEditableFields();
+loadEditableFields();
+loadChecklistState();
+registerServiceWorker();
+</script>
+</body>
+</html>
