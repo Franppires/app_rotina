@@ -1,6 +1,7 @@
 function tg(row,ev){
-  if(editMode){
-    if(ev){ev.preventDefault();ev.stopPropagation();}
+  if(ev && ev.target && ev.target.closest('.inline-editable')){
+    ev.preventDefault();
+    ev.stopPropagation();
     return;
   }
   row.querySelector('.ck-box').classList.toggle('on');

@@ -4,6 +4,8 @@ const APP_SHELL = [
   "./index.html",
   "./franciane_oliver_v3.html",
   "./manifest.webmanifest",
+  "./icons/icon-192.svg",
+  "./icons/icon-512.svg",
   "./styles/main.css",
   "./scripts/storage.js",
   "./scripts/checklist.js",

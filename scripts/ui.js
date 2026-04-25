@@ -10,8 +10,6 @@ const dcd={
 };
 const dm={0:6,1:0,2:1,3:2,4:3,5:4,6:5};
 
-let editMode=false;
-
 function tT(){
   const h=document.documentElement;
   const dk=h.getAttribute('data-theme')==='dark';
@@ -61,7 +59,7 @@ function applySavedTheme(){
 
 function saveEditableFields(){
   const payload={};
-  document.querySelectorAll('.editable[data-edit-key]').forEach(el=>{
+  document.querySelectorAll('.inline-editable[data-edit-key]').forEach(el=>{
     payload[el.dataset.editKey]=el.textContent.trim();
   });
   appData.editable=payload;
@@ -70,7 +68,7 @@ function saveEditableFields(){
 
 function loadEditableFields(){
   const payload=appData.editable || {};
-  document.querySelectorAll('.editable[data-edit-key]').forEach(el=>{
+  document.querySelectorAll('.inline-editable[data-edit-key]').forEach(el=>{
     const key=el.dataset.editKey;
     if(typeof payload[key]==='string' && payload[key].length){
       el.textContent=payload[key];
@@ -79,21 +77,75 @@ function loadEditableFields(){
 }
 
 function bindEditableFields(){
-  document.querySelectorAll('.editable[data-edit-key]').forEach(el=>{
-    el.setAttribute('contenteditable','false');
-    el.addEventListener('click',e=>{if(editMode){e.stopPropagation();}});
-    el.addEventListener('blur',()=>{if(editMode) saveEditableFields();});
-  });
-}
+  const editableSelector=[
+    '.topbar h1',
+    '.topbar-sub',
+    '.main .period-tag',
+    '.main .ttime',
+    '.main .ttitle',
+    '.main .tdet li',
+    '.main .card-title',
+    '.main .card-sub',
+    '.main .cr-l',
+    '.main .cr-r',
+    '.main .info-box',
+    '.main .tip-title',
+    '.main .tip-body',
+    '.main .meal-title',
+    '.main .meal-kcal',
+    '.main .meal-name',
+    '.main .meal-qty',
+    '.main .macro-val',
+    '.main .macro-lbl',
+    '.main .wd-name',
+    '.main .wd-type',
+    '.main .ex-name',
+    '.main .ex-det',
+    '.main .med-name',
+    '.main .med-time',
+    '.main .med-body li',
+    '.main .acc-title',
+    '.main .acc-sub',
+    '.main .acc-section',
+    '.main .toy-name',
+    '.main .toy-why',
+    '.main .chip',
+    '.main .ck-grp',
+    '.main .ck-time',
+    '.main .ck-lbl',
+    '.footer'
+  ].join(',');
 
-function toggleEditMode(){
-  editMode=!editMode;
-  document.body.classList.toggle('edit-mode',editMode);
-  document.getElementById('editBtn').textContent=editMode?'Concluir':'Editar';
-  document.querySelectorAll('.editable[data-edit-key]').forEach(el=>{
-    el.setAttribute('contenteditable',editMode?'true':'false');
+  const editableEls=[...document.querySelectorAll(editableSelector)];
+  editableEls.forEach((el,index)=>{
+    el.classList.add('inline-editable');
+    if(!el.dataset.editKey){
+      el.dataset.editKey='auto-'+index;
+    }
+    el.setAttribute('contenteditable','false');
+    el.addEventListener('click',e=>{
+      e.stopPropagation();
+      if(el.getAttribute('contenteditable')!=='true'){
+        el.setAttribute('contenteditable','true');
+        el.classList.add('editing');
+        el.focus();
+      }
+    });
+    el.addEventListener('blur',()=>{
+      if(el.getAttribute('contenteditable')==='true'){
+        el.setAttribute('contenteditable','false');
+        el.classList.remove('editing');
+        saveEditableFields();
+      }
+    });
+    el.addEventListener('keydown',e=>{
+      const allowBreak=el.matches('.tip-body, .info-box, .toy-why, .ex-det');
+      if(e.key==='Enter' && !e.shiftKey && !allowBreak){
+        e.preventDefault();
+        el.blur();
+      }
+    });
   });
-  if(!editMode) saveEditableFields();
 }
 
 function exportAppData(){
